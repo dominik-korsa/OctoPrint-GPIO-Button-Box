@@ -20,6 +20,7 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
     def on_plugin_enabled(self):
         self.start_button = ButtonHandler(2, on_short_click=self.on_resume_click)
         self.pause_button = ButtonHandler(3, on_short_click=self.on_pause_click, on_long_click=self.on_cancel_click)
+        self.power_button = ButtonHandler(4, on_short_click=self.on_power_toggle, on_long_click=self.on_power_stop)
 
     def on_plugin_disabled(self):
         self.start_button.close()
@@ -40,6 +41,18 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
 
     def on_cancel_click(self):
         self._printer.cancel_print()
+
+    def on_power_toggle(self):
+        if self.psucontrol_helpers.get_psu_state():
+            if self._printer.is_paused() or self._printer.is_pausing() or self._printer.is_printing() or self._printer.is_cancelling():
+                return
+            self.psucontrol_helpers.turn_psu_off()
+        else:
+            self.psucontrol_helpers.turn_psu_on()
+
+    def on_power_stop(self):
+        self.psucontrol_helpers.turn_psu_off()
+
 
     ##~~ Softwareupdate hook
 
