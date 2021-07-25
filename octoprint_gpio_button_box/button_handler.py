@@ -16,6 +16,8 @@ class ButtonHandler:
         self.press_start = time()
 
     def when_released(self):
+        if time() - self.press_start < 0.02:
+            return
         if (self.on_long_click is not None) and (time() - self.press_start >= self.long_duration):
             self.on_long_click()
         else:
