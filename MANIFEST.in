@@ -1,0 +1,4 @@
+include README.md
+recursive-include octoprint_gpio_button_box/templates *
+recursive-include octoprint_gpio_button_box/translations *
+recursive-include octoprint_gpio_button_box/static *
