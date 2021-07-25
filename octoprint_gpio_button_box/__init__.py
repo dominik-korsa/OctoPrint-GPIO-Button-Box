@@ -4,7 +4,7 @@ from __future__ import absolute_import
 import octoprint.plugin
 import octoprint.printer
 
-from button_handler import ButtonHandler
+from .button_handler import ButtonHandler
 
 
 class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
