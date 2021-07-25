@@ -38,6 +38,8 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
         self._printer.resume_print()
 
     def on_pause_click(self):
+        if self._printer.is_paused() or self._printer.is_pausing():
+            return
         self._printer.pause_print()
 
     def on_cancel_click(self):
