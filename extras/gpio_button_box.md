@@ -13,7 +13,7 @@ date: today's date in format YYYY-MM-DD, e.g. 2015-04-21
 
 homepage: https://github.com/dominik-korsa/OctoPrint-GPIO-Button-Box
 source: https://github.com/dominik-korsa/OctoPrint-GPIO-Button-Box
-archive: https://github.com/dominik-korsa/OctoPrint-GPIO-Button-Box/archive/master.zip
+archive: https://github.com/dominik-korsa/OctoPrint-GPIO-Button-Box/archive/main.zip
 
 # TODO
 # Set this to true if your plugin uses the dependency_links setup parameter to include

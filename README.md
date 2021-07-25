@@ -7,7 +7,7 @@
 Install via the bundled [Plugin Manager](https://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
 or manually using this URL:
 
-    https://github.com/dominik-korsa/OctoPrint-GPIO-Button-Box/archive/master.zip
+    https://github.com/dominik-korsa/OctoPrint-GPIO-Button-Box/archive/main.zip
 
 **TODO:** Describe how to install your plugin, if more needs to be done than just installing it via pip or through
 the plugin manager.
