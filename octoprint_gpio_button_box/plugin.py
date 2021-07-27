@@ -15,12 +15,10 @@ class GPIOButtonBox(
         self.pause_button = None
         self.power_button = None
         self.led_manager = None
-
-    @property
-    def psucontrol_helpers(self):
-        return self._plugin_manager.get_helpers("psucontrol")
+        self.psucontrol_helpers = None
 
     def on_plugin_enabled(self):
+        self.psucontrol_helpers = self._plugin_manager.get_helpers("psucontrol")
         self.start_button = ButtonHandler(2, on_short_click=self.on_resume_click)
         self.pause_button = ButtonHandler(3, on_short_click=self.on_pause_click, on_long_click=self.on_cancel_click)
         self.power_button = ButtonHandler(4, on_short_click=self.on_power_toggle, on_long_click=self.on_power_stop)
