@@ -1,13 +1,12 @@
 import threading
 from time import sleep
-from .plugin import GPIOButtonBox
 from rpi_ws281x import PixelStrip, Color
 
 LED_PIN = 18
 
 
 class LedManager:
-    def __init__(self, plugin: GPIOButtonBox):
+    def __init__(self, plugin):
         self.plugin = plugin
         self.state = None
         self.psu_on = False
