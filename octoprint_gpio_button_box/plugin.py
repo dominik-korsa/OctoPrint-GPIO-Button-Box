@@ -18,6 +18,10 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
     def psucontrol_helpers(self):
         return self._plugin_manager.get_helpers("psucontrol")
 
+    @property
+    def logger(self):
+        return self._logger
+
     def on_plugin_enabled(self):
         self.start_button = ButtonHandler(2, on_short_click=self.on_resume_click)
         self.pause_button = ButtonHandler(3, on_short_click=self.on_pause_click, on_long_click=self.on_cancel_click)
