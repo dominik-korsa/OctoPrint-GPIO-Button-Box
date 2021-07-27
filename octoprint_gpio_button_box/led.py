@@ -10,6 +10,10 @@ class LedManager:
         self.plugin = plugin
         self.state = None
         self.psu_on = False
+        self.strip = None
+
+    def start(self):
+        self.update_psu_on()
         self.update_printer_state()
         threading.Thread(target=self.thread).start()
         self.strip = PixelStrip(2, LED_PIN)

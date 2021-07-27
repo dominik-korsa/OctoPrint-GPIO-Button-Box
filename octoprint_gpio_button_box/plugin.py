@@ -8,23 +8,23 @@ from .printer_state import PrinterState
 
 class GPIOButtonBox(
     octoprint.plugin.EventHandlerPlugin,
-    octoprint.plugin.StartupPlugin
 ):
     def __init__(self):
         super().__init__()
         self.start_button = None
         self.pause_button = None
         self.power_button = None
-        self.led_manager = LedManager(self)
+        self.led_manager = None
 
     @property
     def psucontrol_helpers(self):
         return self._plugin_manager.get_helpers("psucontrol")
 
-    def on_after_startup(self):
+    def on_plugin_enabled(self):
         self.start_button = ButtonHandler(2, on_short_click=self.on_resume_click)
         self.pause_button = ButtonHandler(3, on_short_click=self.on_pause_click, on_long_click=self.on_cancel_click)
         self.power_button = ButtonHandler(4, on_short_click=self.on_power_toggle, on_long_click=self.on_power_stop)
+        self.led_manager = LedManager(self)
 
     def on_plugin_disabled(self):
         self.start_button.close()
@@ -37,7 +37,8 @@ class GPIOButtonBox(
             else:
                 self._logger.info("PSU disabled")
         elif event == "PrinterStateChanged":
-            self.led_manager.update_printer_state()
+            if self.led_manager is not None:
+                self.led_manager.update_printer_state()
 
     def on_resume_click(self):
         self._printer.resume_print()
