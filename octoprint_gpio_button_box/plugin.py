@@ -63,6 +63,7 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
         self.psucontrol_helpers["get_psu_state"]()
 
     def get_state(self) -> PrinterState:
+        self._logger.info(str(self._printer))
         if self._printer.is_error(): return PrinterState.Error
         if self._printer.is_paused(): return PrinterState.Paused
         if self._printer.is_pausing(): return PrinterState.Pausing
