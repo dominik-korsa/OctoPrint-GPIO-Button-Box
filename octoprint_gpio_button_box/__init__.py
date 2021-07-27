@@ -1,10 +1,23 @@
 # coding=utf-8
 from __future__ import absolute_import
 
+from enum import Enum, auto
+
 import octoprint.plugin
 import octoprint.printer
 
 from .button_handler import ButtonHandler
+from .led import LedManager
+
+
+class PrinterState(Enum):
+    Disconnected = auto()
+    Operational = auto()
+    Printing = auto()
+    Paused = auto()
+    Pausing = auto()
+    Cancelling = auto()
+    Error = auto()
 
 
 class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
@@ -13,6 +26,7 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
         self.start_button = None
         self.pause_button = None
         self.power_button = None
+        self.led_manager = None
 
     @property
     def psucontrol_helpers(self):
@@ -22,6 +36,7 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
         self.start_button = ButtonHandler(2, on_short_click=self.on_resume_click)
         self.pause_button = ButtonHandler(3, on_short_click=self.on_pause_click, on_long_click=self.on_cancel_click)
         self.power_button = ButtonHandler(4, on_short_click=self.on_power_toggle, on_long_click=self.on_power_stop)
+        self.led_manager = LedManager(self)
 
     def on_plugin_disabled(self):
         self.start_button.close()
@@ -33,6 +48,8 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
                 self._logger.info("PSU enabled")
             else:
                 self._logger.info("PSU disabled")
+        elif event == "PrinterStateChanged":
+            self.led_manager.update_printer_state()
 
     def on_resume_click(self):
         self._printer.resume_print()
@@ -46,7 +63,7 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
         self._printer.cancel_print()
 
     def on_power_toggle(self):
-        if self.psucontrol_helpers["get_psu_state"]():
+        if self.get_psu_on():
             if self._printer.is_paused() or self._printer.is_pausing() or self._printer.is_printing() or self._printer.is_cancelling():
                 return
             self.psucontrol_helpers["turn_psu_off"]()
@@ -56,6 +73,17 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
     def on_power_stop(self):
         self.psucontrol_helpers["turn_psu_off"]()
 
+    def get_psu_on(self):
+        self.psucontrol_helpers["get_psu_state"]()
+
+    def get_state(self) -> PrinterState:
+        if self._printer.is_error(): return PrinterState.Error
+        if self._printer.is_paused(): return PrinterState.Paused
+        if self._printer.is_pausing(): return PrinterState.Pausing
+        if self._printer.is_cancelling(): return PrinterState.Cancelling
+        if self._printer.is_printing(): return PrinterState.Printing
+        if self._printer.is_operational(): return PrinterState.Operational
+        return PrinterState.Disconnected
 
     ##~~ Softwareupdate hook
 
@@ -84,7 +112,9 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
 # Python 2. New plugins should make sure to run under both versions for now. Uncomment one of the following
 # compatibility flags according to what Python versions your plugin supports!
 # __plugin_pythoncompat__ = ">=2.7,<3" # only python 2
-__plugin_pythoncompat__ = ">=3,<4" # only python 3
+__plugin_pythoncompat__ = ">=3,<4"  # only python 3
+
+
 # __plugin_pythoncompat__ = ">=2.7,<4" # python 2 and 3
 
 

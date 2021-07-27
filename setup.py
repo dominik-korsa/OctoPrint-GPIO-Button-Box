@@ -33,7 +33,7 @@ plugin_url = "https://github.com/dominik-korsa/OctoPrint-GPIO-Button-Box"
 plugin_license = "MIT"
 
 # Any additional requirements besides OctoPrint should be listed here
-plugin_requires = ['gpiozero']
+plugin_requires = ['gpiozero', 'rpi-ws281x']
 
 ### --------------------------------------------------------------------------------------------------------------------
 ### More advanced options that you usually shouldn't have to touch follow after this point
