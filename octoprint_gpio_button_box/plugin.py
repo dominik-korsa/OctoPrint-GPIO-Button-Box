@@ -6,7 +6,10 @@ from .led import LedManager
 from .printer_state import PrinterState
 
 
-class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
+class GPIOButtonBox(
+    octoprint.plugin.EventHandlerPlugin,
+    octoprint.plugin.StartupPlugin
+):
     def __init__(self):
         super().__init__()
         self.start_button = None
@@ -18,11 +21,7 @@ class GPIOButtonBox(octoprint.plugin.EventHandlerPlugin):
     def psucontrol_helpers(self):
         return self._plugin_manager.get_helpers("psucontrol")
 
-    @property
-    def logger(self):
-        return self._logger
-
-    def on_plugin_enabled(self):
+    def on_after_startup(self):
         self.start_button = ButtonHandler(2, on_short_click=self.on_resume_click)
         self.pause_button = ButtonHandler(3, on_short_click=self.on_pause_click, on_long_click=self.on_cancel_click)
         self.power_button = ButtonHandler(4, on_short_click=self.on_power_toggle, on_long_click=self.on_power_stop)
