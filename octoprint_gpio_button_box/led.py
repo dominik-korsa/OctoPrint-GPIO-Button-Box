@@ -1,6 +1,6 @@
 import threading
 from time import sleep
-from . import GPIOButtonBox
+from octoprint_gpio_button_box import GPIOButtonBox
 from rpi_ws281x import PixelStrip, Color
 
 LED_PIN = 18

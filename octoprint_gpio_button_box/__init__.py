@@ -6,8 +6,8 @@ from enum import Enum, auto
 import octoprint.plugin
 import octoprint.printer
 
-from .button_handler import ButtonHandler
-from .led import LedManager
+from octoprint_gpio_button_box.button_handler import ButtonHandler
+from octoprint_gpio_button_box.led import LedManager
 
 
 class PrinterState(Enum):
