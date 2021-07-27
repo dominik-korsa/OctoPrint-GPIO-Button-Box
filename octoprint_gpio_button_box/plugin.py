@@ -25,6 +25,7 @@ class GPIOButtonBox(
         self.pause_button = ButtonHandler(3, on_short_click=self.on_pause_click, on_long_click=self.on_cancel_click)
         self.power_button = ButtonHandler(4, on_short_click=self.on_power_toggle, on_long_click=self.on_power_stop)
         self.led_manager = LedManager(self)
+        self.led_manager.start()
 
     def on_plugin_disabled(self):
         self.start_button.close()
