@@ -16,7 +16,7 @@ class GPIOButtonBox(
         self.start_button = None
         self.pause_button = None
         self.power_button = None
-        # self.led_manager = None
+        self.led_manager = None
         self.psucontrol_helpers = None
 
     def on_after_startup(self):
