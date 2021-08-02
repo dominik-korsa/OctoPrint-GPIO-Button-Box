@@ -1,6 +1,6 @@
 import threading
 from time import sleep
-from rpi_ws281x import PixelStrip, Color, WS2811_STRIP_BGR
+from rpi_ws281x import PixelStrip, Color, WS2811_STRIP_GBR
 
 LED_PIN = 10
 
@@ -13,7 +13,7 @@ class LedManager:
         self.strip = None
 
     def start(self):
-        self.strip = PixelStrip(2, LED_PIN, strip_type=WS2811_STRIP_BGR)
+        self.strip = PixelStrip(2, LED_PIN, strip_type=WS2811_STRIP_GBR)
         self.strip.begin()
         self.update_psu_on()
         self.update_printer_state()
