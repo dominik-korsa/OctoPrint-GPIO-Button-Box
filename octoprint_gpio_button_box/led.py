@@ -13,7 +13,7 @@ class LedManager:
         self.strip = None
 
     def start(self):
-        self.strip = PixelStrip(2, LED_PIN, strip_type=WS2811_STRIP_GBR)
+        self.strip = PixelStrip(2, LED_PIN, strip_type=WS2811_STRIP_BGR)
         self.strip.begin()
         self.update_psu_on()
         self.update_printer_state()
