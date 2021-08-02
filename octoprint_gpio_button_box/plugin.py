@@ -33,6 +33,7 @@ class GPIOButtonBox(
 
     def on_event(self, event, payload):
         if event == "plugin_psucontrol_psu_state_changed":
+            self.led_manager.set_psu_on(payload["isPSUOn"])
             if payload["isPSUOn"]:
                 self._logger.info("PSU enabled")
             else:
