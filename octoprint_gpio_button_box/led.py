@@ -36,6 +36,8 @@ class LedManager:
             sleep(0.02)
 
     def draw_led(self):
-        self.strip.setPixelColor(0, Color(0, 0, 255))
-        self.strip.setPixelColor(1, Color(0, 255, 0) if self.psu_on else Color(255, 0, 0))
+        self.strip.setPixelColor(0, Color(255, 255, 255))
+        self.strip.setPixelColor(1, Color(255, 255, 255))
+        # self.strip.setPixelColor(0, Color(0, 0, 255))
+        # self.strip.setPixelColor(1, Color(0, 255, 0) if self.psu_on else Color(255, 0, 0))
         self.strip.show()
