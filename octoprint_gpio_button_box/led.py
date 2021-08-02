@@ -2,7 +2,7 @@ import threading
 from time import sleep
 from rpi_ws281x import PixelStrip, Color
 
-LED_PIN = 18
+LED_PIN = 10
 
 
 class LedManager:
