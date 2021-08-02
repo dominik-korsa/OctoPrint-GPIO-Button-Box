@@ -1,6 +1,6 @@
 import threading
 from time import sleep
-from rpi_ws281x import PixelStrip, Color, WS2811_STRIP_GBR
+from rpi_ws281x import PixelStrip, Color, WS2811_STRIP_BGR
 
 LED_PIN = 10
 
